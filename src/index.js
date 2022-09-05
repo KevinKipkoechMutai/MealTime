@@ -87,3 +87,9 @@ function removeMealLS(mealName) {
 }
 
 //fetching meals from list
+function getMealsLS() {
+    const mealNames = JSON.parse(localStorage.getItem('mealNames'));
+    return mealNames === null ? []  : mealNames;
+}
+
+//fetching favorite meals
