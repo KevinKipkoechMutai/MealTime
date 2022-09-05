@@ -172,3 +172,48 @@ header button {
 }
 
 /*The popup container*/
+.popup-container {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    background-color: hsl(31, 95%, 2%);
+    position: fixed;
+}
+
+.popup-container .hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.popup {
+    width: 100%;
+    overflow: auto;
+    padding: 0.23rem;
+    border-radius: 4px;
+    background-color: #faf6f5;
+    max-height: 96vh;
+    max-width: 600px;
+    position: relative;
+}
+
+.meal-info h1 {
+    text-align: center;
+}
+
+.fa-search, .fa-times {
+    color: rgb(238, 155, 66);
+}
+
+.popup .close-popup {
+    cursor: pointer;
+    top: 1rem;
+    right: 1rem;
+    position: absolute;
+    border: none;
+    font-size: 1.6rem;
+    background-color: transparent;
+}
