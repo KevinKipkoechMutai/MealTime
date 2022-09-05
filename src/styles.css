@@ -1,7 +1,18 @@
 /*setting border properties and font*/
 * {
     box-sizing: border-box;
-    font-family: Poppins, serif;
+    font-family: "Poppins", serif;
 }
 
 /*Body properties*/
+body {
+    background-color: hsl(46, 100%, 50%);
+    background-image: url('https://cdn.pixabay.com/photo/2014/10/19/20/59/hamburger-494706_960_720.jpg');
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    min-height: 100vh;
+}
+
+/*Image properties*/
