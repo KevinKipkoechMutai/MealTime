@@ -113,3 +113,62 @@ header button {
 }
 
 /*meal class*/
+.meal {
+    box-shadow: 0 0 10px 2px hsl(63, 17%, 21%);
+    cursor: pointer;
+    overflow: hidden;
+    margin: 1.6rem;
+    border-radius: 2.5px;
+}
+
+.meal-header {
+    position: relative;
+}
+
+.meal-header .random {
+    position: absolute;
+    border-bottom-right-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 0.25rem 1rem;
+    background-color: rgb(209, 110, 37);
+    top: 1rem;
+}
+
+.meal-header img {
+    object-fit: cover;
+    height: 260px;
+    width: 100%;
+}
+
+.meal-body {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    justify-content: space-between;
+}
+
+.meal-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.meal-body h4 {
+    margin: 0;
+}
+
+.meal-body .fav-btn {
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: #d2d1cb;
+    font-size: 1.3rem;
+    background-color: transparent;
+}
+
+.meal-body .fav-btn.active {
+    color: hsl(31, 98%, 50%);
+}
+
+/*The popup container*/
