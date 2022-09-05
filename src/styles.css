@@ -38,3 +38,11 @@ header {
 }
 
 /*input section of the header*/
+header input {
+    background-color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+/*button section of the header*/
