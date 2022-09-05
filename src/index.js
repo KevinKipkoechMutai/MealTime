@@ -74,4 +74,10 @@ function addMeal(mealInfo, random=false) {
     mealsId.appendChild(meal);
 }
 
-//adding meals to list
+//Adding meals to list
+function addMealLS(mealName) {
+    const mealNames = getMealsLS();
+    localStorage.setItem('mealNames', JSON.stringify([...mealNames, mealName]));
+}
+
+//Removing mealsfrom the DOM
