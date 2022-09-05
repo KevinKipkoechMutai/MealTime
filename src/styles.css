@@ -30,3 +30,11 @@ img {
 }
 
 /*header section*/
+header {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem;
+    justify-content: center;
+}
+
+/*input section of the header*/
