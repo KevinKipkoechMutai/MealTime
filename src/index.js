@@ -93,3 +93,15 @@ function getMealsLS() {
 }
 
 //fetching favorite meals
+function fetchFavMeals() {
+    favContainer.innerHTML = "";
+    const mealNames = getMealsLS();
+
+    for (let i=0; i<mealNames.length; i++) {
+        const mealName = mealNames[i];
+        meal = await fetchMealById(mealName);
+        addMealFav(meal);
+    }
+}
+
+//adding meals to favorites
