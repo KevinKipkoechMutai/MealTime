@@ -55,3 +55,10 @@ header button {
 }
 
 /*fav-container section*/
+.fav-container {
+    background-color: #cdd182;
+    text-align: center;
+    padding: 0.3rem 0.9 rem;
+}
+
+/*fav-meals container*/
