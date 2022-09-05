@@ -1,0 +1,7 @@
+/*setting border properties and font*/
+* {
+    box-sizing: border-box;
+    font-family: Poppins, serif;
+}
+
+/*Body properties*/
