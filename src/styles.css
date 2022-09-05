@@ -46,3 +46,12 @@ header input {
 }
 
 /*button section of the header*/
+header button {
+    background-color: transparent;
+    font-size: small;
+    color: #a7a7a1;
+    margin-left: 10px;
+    border: none;
+}
+
+/*fav-container section*/
