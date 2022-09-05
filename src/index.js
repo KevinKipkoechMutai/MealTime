@@ -105,3 +105,24 @@ function fetchFavMeals() {
 }
 
 //adding meals to favorites
+function addMealFav(mealInfo) {
+    const favMeal = document.createElement("li");
+    favMeal.innerHTML = `
+    <img src="${mealInfo.strMealThumb}" alt="${mealInfo.strMeal}">
+    <span>${mealInfo.strMeal}</span>
+    <button class="clear"><i class="fas fa-window-close"></i></button>
+    `
+    const btn = favMeal.querySelector('.clear');
+    btn.addEventListener('click', ()=> {
+        removeMealLS(mealInfo.idMeal);
+        fetchFavMeals();
+    });
+
+    favMeal.addEventListener('click', () => {
+        displayMealInfo(mealInfo);
+    });
+
+    favContainer.appendChild(favMeal);
+}
+
+//displaying meal information
