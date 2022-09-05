@@ -159,3 +159,6 @@ searchBtn.addEventListener('click', async () => {
     }
 });
 
+popupCloseBtn.addEventListener('click', () => {
+    recipePopup.classList.add('hidden');
+});
