@@ -27,8 +27,12 @@ By Kevin Kipkoech
 This website allows one to search their favorite recipes using a single keyword such as rice, pasta, chicken, and others. The data is fetched from TheRealDB API. 
 ## **Installation Requirements**
 To install and run this project, you need:
+
 -a laptop with a pre-installed operating system.
+
 -Internet connection
+
+-node installed on computer
 ## **Installation Process**
 1. Clone the project onto your computer using the git clone command. Remember to use my repository address as the source. 
 2. After ensuring you have all the html, js, and css files, navigate to the root folder and find the files. 
