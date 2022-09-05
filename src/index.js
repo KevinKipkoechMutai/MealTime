@@ -10,6 +10,8 @@ const searchBtn = document.getElementById("search");
 fetchRandomMeal();
 fetchFavMeals();
 
+//adding meals to the DOM
+
 //fetching a random meal from theMealDB API
 
 async function fetchRandomMeal() {
@@ -30,3 +32,10 @@ async function fetchMealById(id) {
 }
 
 //fetching meals using search
+async function fetchMealBySearch(name) {
+    const response = fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=" + name);
+    const responseData = await (await response).json();
+    const meals = responseData.meals;
+    return meals;
+}
+
