@@ -16,3 +16,8 @@ body {
 }
 
 /*Image properties*/
+img {
+    max-width: 100%;
+}
+
+/*container class*/
