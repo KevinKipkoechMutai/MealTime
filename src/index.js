@@ -81,3 +81,9 @@ function addMealLS(mealName) {
 }
 
 //Removing mealsfrom the DOM
+function removeMealLS(mealName) {
+    const mealNames = getMealsLS();
+    localStorage.setItem("mealNames", JSON.stringify(mealNames.filter((id) => id !== mealName)));
+}
+
+//fetching meals from list
