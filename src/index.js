@@ -22,3 +22,11 @@ async function fetchRandomMeal() {
 }
 
 //fetching meals from the database using meal ID
+async function fetchMealById(id) {
+    const response = await fetch('https://www.themealdb.com/api/json/v1/1/lookup.php?i=' + id);
+    const responseData = await response.json();
+    const mealDesc = responseData.meal[0];
+    return mealDesc;
+}
+
+//fetching meals using search
