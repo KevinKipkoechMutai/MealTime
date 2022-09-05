@@ -10,7 +10,6 @@ const searchBtn = document.getElementById("search");
 fetchRandomMeal();
 fetchFavMeals();
 
-//adding meals to the DOM
 
 //fetching a random meal from theMealDB API
 
@@ -39,3 +38,40 @@ async function fetchMealBySearch(name) {
     return meals;
 }
 
+
+//adding meals to the DOM
+function addMeal(mealInfo, random=false) {
+    console.log(mealInfo);
+
+    const meal = document.createElement('div');
+    meal.classList.add('meal');
+
+    meal.innerHTML = `
+    <div class="meal-header">
+        ${random? `<span class="random">Random Recipe</span>`: ""} 
+        <img src="${mealInfo.strMealThumb}" alt="${mealInfo.strMeal}"/>
+    </div>
+    <div class="meal-body">
+        <h4>${mealInfo.strMeal}</h4>
+        <button class="fav-btn"><i clas="fas fa-heart"></i></button>
+    </div>
+    `;
+    const btn = meal.querySelector(".meal-body .fav-btn");
+
+    btn.addEventListener('click', () => {
+        if (btn.classList.contains("active")) {
+            removeMealLS(mealInfo.idMeal);
+            btn.classList.remove("active");
+        } else {
+            addMealLS(mealInfo.idMeal);
+            btn.classList.add("active");
+        }
+        fetchFavMeals();
+    });
+    meal.addEventListener('click', () => {
+        displayMealInfo(mealInfo);
+    });
+    mealsId.appendChild(meal);
+}
+
+//adding meals to list
