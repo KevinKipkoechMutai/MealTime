@@ -1,3 +1,5 @@
+//declaring variables
+
 const mealsEl = document.getElementById("meals");
 const favoriteContainer = document.getElementById("fav-meals");
 const mealPopup = document.getElementById("meal-popup");
@@ -6,9 +8,11 @@ const popupCloseBtn = document.getElementById("close-popup");
 const searchTerm = document.getElementById("search-term");
 const searchBtn = document.getElementById("search");
 
+
 getRandomMeal();
 fetchFavMeals();
 
+//fetching a random meal from the API
 async function getRandomMeal() {
     const resp = await fetch(
         "https://www.themealdb.com/api/json/v1/1/random.php"
@@ -19,6 +23,7 @@ async function getRandomMeal() {
     addMeal(randomMeal, true);
 }
 
+//fetching a meal from the API by its ID/index
 async function getMealById(id) {
     const resp = await fetch(
         "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + id
@@ -30,6 +35,8 @@ async function getMealById(id) {
     return meal;
 }
 
+
+//fetching a meal from the API by search
 async function getMealsBySearch(term) {
     const resp = await fetch(
         "https://www.themealdb.com/api/json/v1/1/search.php?s=" + term
@@ -41,6 +48,7 @@ async function getMealsBySearch(term) {
     return meals;
 }
 
+//adding fetched meals to the DOM
 function addMeal(mealData, random = false) {
     console.log(mealData);
 
@@ -80,12 +88,14 @@ function addMeal(mealData, random = false) {
     mealsEl.appendChild(meal);
 }
 
+//locally storing meal data
 function addMealLS(mealId) {
     const mealIds = getMealsLS();
 
     localStorage.setItem("mealIds", JSON.stringify([...mealIds, mealId]));
 }
 
+//removing meals from local storage folowing deletion
 function removeMealLS(mealId) {
     const mealIds = getMealsLS();
 
@@ -95,12 +105,14 @@ function removeMealLS(mealId) {
     );
 }
 
+//fetching meals from local storage
 function getMealsLS() {
     const mealIds = JSON.parse(localStorage.getItem("mealIds"));
 
     return mealIds === null ? [] : mealIds;
 }
 
+//selecting favorite meals
 async function fetchFavMeals() {
     favoriteContainer.innerHTML = "";
 
@@ -114,6 +126,7 @@ async function fetchFavMeals() {
     }
 }
 
+//adding a meal to favorites
 function addMealFav(mealData) {
     const favMeal = document.createElement("li");
 
@@ -138,6 +151,7 @@ function addMealFav(mealData) {
     favoriteContainer.appendChild(favMeal);
 }
 
+//displaying the entire meal recipe in the DOM
 function showMealInfo(mealData) {
     mealInfoEl.innerHTML = "";
 
@@ -167,7 +181,7 @@ function showMealInfo(mealData) {
 
     mealPopup.classList.remove("hidden");
 }
-
+ //search button functionality
 searchBtn.addEventListener("click", async () => {
     mealsEl.innerHTML = "";
 

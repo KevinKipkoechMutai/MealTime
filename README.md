@@ -24,7 +24,7 @@ By Kevin Kipkoech
 
 [Author Contact Info](#authorcontactinfo)
 ## **Description**
-This website allows one to search their favorite recipes using a single keyword such as rice, pasta, chicken, and others. The data is fetched from TheRealDB API. 
+This website allows one to search their favorite recipes using a single keyword such as rice, pasta, chicken, and others. The data is fetched from TheMealDB API. 
 ## **Installation Requirements**
 To install and run this project, you need:
 
