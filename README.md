@@ -59,4 +59,6 @@ Email: [Kevin Kipkoech](kevin.kipkoech@student.moringaschool.com)
 LinkedIn: [Kevin Kipkoech](https://www.linkedin.com/in/kevin-kipkoech-651a15108)
 
 
- 
+ ## **Page Screenshot**
+
+ ![screensshot of the site](./images/screenshot_mealtime.png "mealtime page")
