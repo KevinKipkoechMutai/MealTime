@@ -1,200 +1,188 @@
-//declaring variables
-
-const mealsEl = document.getElementById("meals");
-const favoriteContainer = document.getElementById("fav-meals");
-const mealPopup = document.getElementById("meal-popup");
-const mealInfoEl = document.getElementById("meal-info");
-const popupCloseBtn = document.getElementById("close-popup");
-const searchTerm = document.getElementById("search-term");
-const searchBtn = document.getElementById("search");
+//declaring variables and getting elements from the DOM
+const search = document.getElementById("search");
+const submit = document.getElementById('submit');
+const random = document.getElementById('random');
+const mealsEl = document.getElementById('meals');
+const resultHeading = document.getElementById('result-heading');
+const singleMealEl = document.getElementById("single-meal");
 
 
-getRandomMeal();
-fetchFavMeals();
+//fetching meals from the API
+function searchMeal(e) {
+    //eliminate default behavior of the DOM
+    e.preventDefault();
 
-//fetching a random meal from the API
-async function getRandomMeal() {
-    const resp = await fetch(
-        "https://www.themealdb.com/api/json/v1/1/random.php"
-    );
-    const respData = await resp.json();
-    const randomMeal = respData.meals[0];
+    //clear the single meal section in the DOM
+    singleMealEl.innerHTML = "";
 
-    addMeal(randomMeal, true);
-}
+    //declaring the search variable
+    const term = search.value;
 
-//fetching a meal from the API by its ID/index
-async function getMealById(id) {
-    const resp = await fetch(
-        "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + id
-    );
-
-    const respData = await resp.json();
-    const meal = respData.meals[0];
-
-    return meal;
-}
-
-
-//fetching a meal from the API by search
-async function getMealsBySearch(term) {
-    const resp = await fetch(
-        "https://www.themealdb.com/api/json/v1/1/search.php?s=" + term
-    );
-
-    const respData = await resp.json();
-    const meals = respData.meals;
-
-    return meals;
-}
-
-//adding fetched meals to the DOM
-function addMeal(mealData, random = false) {
-    console.log(mealData);
-
-    const meal = document.createElement("div");
-    meal.classList.add("meal");
-
-    meal.innerHTML = `
-        <div class="meal-header">
-            ${random? `<span class="random"> Random Recipe </span>`: ""}
-            <img
-                src="${mealData.strMealThumb}"
-                alt="${mealData.strMeal}"/>
-        </div>
-        <div class="meal-body">
-            <h4>${mealData.strMeal}</h4>
-            <button class="fav-btn"><i class="fas fa-heart"></i></button>
-        </div>`;
-
-    const btn = meal.querySelector(".meal-body .fav-btn");
-
-    btn.addEventListener("click", () => {
-        if (btn.classList.contains("active")) {
-            removeMealLS(mealData.idMeal);
-            btn.classList.remove("active");
-        } else {
-            addMealLS(mealData.idMeal);
-            btn.classList.add("active");
-        }
-
-        fetchFavMeals();
-    });
-
-    meal.addEventListener("click", () => {
-        showMealInfo(mealData);
-    });
-
-    mealsEl.appendChild(meal);
-}
-
-//locally storing meal data
-function addMealLS(mealId) {
-    const mealIds = getMealsLS();
-
-    localStorage.setItem("mealIds", JSON.stringify([...mealIds, mealId]));
-}
-
-//removing meals from local storage folowing deletion
-function removeMealLS(mealId) {
-    const mealIds = getMealsLS();
-
-    localStorage.setItem(
-        "mealIds",
-        JSON.stringify(mealIds.filter((id) => id !== mealId))
-    );
-}
-
-//fetching meals from local storage
-function getMealsLS() {
-    const mealIds = JSON.parse(localStorage.getItem("mealIds"));
-
-    return mealIds === null ? [] : mealIds;
-}
-
-//selecting favorite meals
-async function fetchFavMeals() {
-    favoriteContainer.innerHTML = "";
-
-    const mealIds = getMealsLS();
-
-    for (let i = 0; i < mealIds.length; i++) {
-        const mealId = mealIds[i];
-        meal = await getMealById(mealId);
-
-        addMealFav(meal);
+    //check if the input is empty
+    if (term.trim()) {
+        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
+            .then((res) => res.json())
+            .then((data) => {
+                resultHeading.innerHTML = `<h4>Search results for '${term}'</h4>`;
+                if (data.meals === null) {
+                    resultHeading.innerHTML = `<p>There are no search results for (${term}), please try another search term.</p>`;
+                    mealsEl.innerHTML = "";
+                } else {
+                    mealsEl.innerHTML = data.meals.map((meal) => `
+                    <div class="meal">
+                        <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+                        <div class="meal-info" data-mealID="${meal.idMeal}">
+                            <h3>${meal.strMeal}</h3>
+                        </div>
+                    </div>
+                    `).join("");
+                }
+            });
+            //clear the search term
+            search.value = "";
+    } else {
+        alert("Enter a valid search term")
     }
 }
 
-//adding a meal to favorites
-function addMealFav(mealData) {
-    const favMeal = document.createElement("li");
+//enter the filtered meal list
+function loadInitialMeals() {
+    //clear the single meal from the DOM
+    singleMealEl.innerHTML = "";
 
-    favMeal.innerHTML = `
-        <img
-            src="${mealData.strMealThumb}"
-            alt="${mealData.strMeal}"/><span>${mealData.strMeal}</span>
-        <button class="clear"><i class="fas fa-window-close"></i></button>`;
+    fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=American`)
+        .then((res) => res.json())
+        .then((data) => {
+            resultHeading.innerHTML = ``;
 
-    const btn = favMeal.querySelector(".clear");
-
-    btn.addEventListener("click", () => {
-        removeMealLS(mealData.idMeal);
-
-        fetchFavMeals();
-    });
-
-    favMeal.addEventListener("click", () => {
-        showMealInfo(mealData);
-    });
-
-    favoriteContainer.appendChild(favMeal);
+            if (data.meals === null) {
+                resultHeading.innerHTML = `Error, kindly refresh the page`;
+                mealsEl.innerHTML = '';
+            } else {
+                mealsEl.innerHTML = data.meals.map((meal) => `
+                <div class="meal">
+                    <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+                    <div class="meal-info" data-mealID="${meal.idMeal}">
+                        <h3>${meal.strMeal}</h3>
+                    </div>
+                </div>
+                `).join('');
+            }
+        });
+        //clear the search term
+        search.value = "";
 }
 
-//displaying the entire meal recipe in the DOM
-function showMealInfo(mealData) {
-    mealInfoEl.innerHTML = "";
+loadInitialMeals();
 
-    const mealEl = document.createElement("div");
+//fetching meals from the API by ID
+function getMealByID(mealID) {
+    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
+        .then((res) => res.json())
+        .then((data) => {
+            const meal = data.meals[0];
+            addMealToDOM(meal);
+        })
+}
 
+//fetching random meals from API
+function getRandomMeal() {
+    //clear heading and meal info
+    mealsEl.innerHTML = '';
+    resultHeading.innerHTML = '';
+
+    fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
+        .then((res) => res.json())
+        .then((data) => {
+            const meal = data.meals[0];
+            addRandomMealToDOM(meal);
+        });
+}
+
+//adding meals to the DOM
+function addMealToDOM(meal) {
     const ingredients = [];
 
-    for (let i = 1; i <= 20; i++) {
-        if (mealData["strIngredient" + i]) {
-            ingredients.push(`${mealData["strIngredient" + i]} - ${mealData["strMeasure" + i]}`);
-        } 
-        else {
+    for (let i=1; i<=20; ++i) {
+        if (meal[`strIngredients${i}`]) {
+            ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
+        } else {
             break;
         }
     }
 
-    mealEl.innerHTML = `
-        <h1>${mealData.strMeal}</h1>
-        <img
-            src="${mealData.strMealThumb}"
-            alt="${mealData.strMeal}"/>
-        <p>${mealData.strInstructions}</p>
-        <h3>Ingredients:</h3>
-        <ul>${ingredients.map((ing) => `<li>${ing}</li>`).join("")}</ul>`;
-
-    mealInfoEl.appendChild(mealEl);
-
-    mealPopup.classList.remove("hidden");
+    singleMealEl.innerHTML = `
+    <hr/>
+    <div class="single-meal">
+        <h1>${meal.strMeal}</h1>
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+        <div class="single-meal-info">
+            ${meal.strCategory ? `<p><span class="categoryAndOrigin">Category:</span>${meal.strCategory}</p>` : ''}
+            ${meal.strArea ? `<p><span class=categoryAndOrigin>Origin:</span></p>` : ''}
+        </div>
+        <div class="main">
+            <p id="meal-making-instructions">${meal.strInstructions}</p>
+            <hr/>
+            <h2>Ingredients</h2>
+            <ul>${ingredients.map((ing) => `<li>${ing}</li>`).join('')}</ul>
+        </div>
+    </div>
+    `;
 }
- //search button functionality
-searchBtn.addEventListener("click", async () => {
-    mealsEl.innerHTML = "";
 
-    const search = searchTerm.value;
-    const meals = await getMealsBySearch(search);
+//adding ramdom meals to the DOM
+function addRandomMealToDOM(meal) {
+    const ingredients = [];
 
-    if (meals) {
-        meals.forEach((meal) => {
-            addMeal(meal);
-        });
+    for (let i=1; i<=20; ++i) {
+        if (meal[`strIngredients${i}`]) {
+            ingredients.push(`${meal[`strIngredient${i}`]} - ${meal[`strMeasure${i}`]}`);
+        } else {
+            break;
+        }
     }
+
+    singleMealEl.innerHTML = `
+    <div class="single-meal">
+        <h1>${meal.strMeal}</h1>
+        <img src="${meal.strMealThumb}" alt="${meal.strMeal}"/>
+        <div class="single-meal-info">
+            ${meal.strCategory ? `<p><span class="categoryAndOrigin">Category:</span>${meal.strCategory}</p>` : ''}
+            ${meal.strArea ? `<p><span class=categoryAndOrigin>Origin:</span></p>` : ''}
+        </div>
+        <div class="main">
+            <p id="meal-making-instructions">${meal.strInstructions}</p>
+            <hr/>
+            <h2>Ingredients</h2>
+            <ul>${ingredients.map((ing) => `<li>${ing}</li>`).join('')}</ul>
+        </div>
+    </div>
+    `;
+}
+
+//scroll to a single meal by clicking
+function scrollTo() {
+    window.location = '#single-meal';
+}
+
+
+//adding event listeners to the buttons and elements
+submit.addEventListener('submit', searchMeal);
+random.addEventListener('click', getRandomMeal);
+
+mealsEl.addEventListener('click', (e) => {
+    const mealInfo = e.path.find(item => {
+        if (item.classList) {
+            return item.classList.contains('meal-info');
+        } else {
+            return false;
+        }
+    });
+    if (mealInfo) {
+        const mealID = mealInfo.getAttribute('data-mealid');
+        getMealByID(mealID);
+    }
+    scrollTo("single-meal");
 });
 
-popupCloseBtn.addEventListener("click", () => {
-    mealPopup.classList.add("hidden");a
-});
+

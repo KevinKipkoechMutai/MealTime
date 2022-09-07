@@ -5,32 +5,36 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>MealTime</title>
-        <meta name="description" content="">
+        <meta name="description" content="Get recipes by fetching from TheMealDB API">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#e1712d">
         <link rel="stylesheet" href="./src/styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link rel="icon" href="./images/foodie-removebg-preview.png">
     </head>
     <body>
-        <div class="container">
-            <!--Header section-->
-            <header>
-                <input type="text" placeholder="Search a recipe" id="search-zone"/>
-                <button id="search"><i class="fas fa-search"></i></button>
-            </header>
-            <!---Body section-->
-            <div class="fav-container">
-                <h3>Hey, what are you craving?</h3>
-                <ul class="fav-meals" id="fav-meals"></ul>
-            </div>
-            <div class="meals" id="meals"></div>
-        </div>
-        <div class="popup-container hidden" id="meal-popup">
-            <div class="popup">
-                <button id="close-popup" class="close-popup"><i class="fas fa-times"></i></button>
-                <div class="meal-info" id="meal-info"></div>
-            </div>
-        </div>
         
-        <script src="./src/index.js" async defer></script>
+        <div class="logo-container">
+            <img src="./images/foodie-removebg-preview.png" alt="Foodie Logo" height="200px" width="200px">
+        </div>
+        <div class="titles">
+            <h1>Welcome to MealTime</h1>
+            <h3>Your Ideal Recipe Provider</h3>
+        </div>
+        <div class="container">
+            <div class="flex">
+                <form id="submit" class="flex">
+                    <input type="text" id="search" placeholder="Search your favorite meal" autocomplete="off"/>
+                    <button class="search-btn" type="submit"><i class="fas fa-search"></i></button>
+                </form>
+                <button class="random-btn" id="random" title="Click here to fetch a random meal!"><i class="fas fa-random"></i></button>
+            </div>
+            <div id="result-heading"></div>
+            <div id="meals" class="meals"></div>
+            <div id="single-meal"></div>
+        </div>
+
+        
+        <script src="./src/index.js"></script>
     </body>
 </html>
